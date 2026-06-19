@@ -17,6 +17,9 @@ module.exports = {
       Kategori_Menu: {
         type: Sequelize.ENUM('makanan', 'minuman')
       },
+      Gambar_Menu: {
+        type: Sequelize.STRING(255)
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -1,5 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+
+const env = process.env.NODE_ENV || 'development';
+
+// Hanya load dari file .env di development/test
+if (env !== 'production') {
+  require('dotenv').config({
+    path: `.env.${env}`
+  });
+}
+
 const routers = require('./routes/index');
 const db = require('./models');
 
@@ -15,12 +25,16 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve static files (gambar menu dll)
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Root route - API info
 app.get('/', (req, res) => {
   res.json({
     message: 'Backend Omping API',
     version: '1.0.0',
-    environment: process.env.NODE_ENV || 'development',
+    environment: env,
     endpoints: {
       auth: 'POST /login',
       user: '/get/user | /create/user | /update/user/:id | /delete/user/:id',
@@ -40,5 +54,5 @@ app.use(routers);
 // Sinkronisasi DB dan jalankan server
 const PORT = process.env.PORT || 3000;
 db.sequelize.sync().then(() => {
-  app.listen(PORT, () => console.log(`Server berjalan di port ${PORT} [${process.env.NODE_ENV || 'development'}]`));
+  app.listen(PORT, () => console.log(`Server berjalan di port ${PORT} [${env}]`));
 });

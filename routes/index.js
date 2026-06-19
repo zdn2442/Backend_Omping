@@ -21,11 +21,13 @@ routers.post('/create/user', createUser);
 routers.put('/update/user/:id', updateUser);
 routers.delete('/delete/user/:id', deleteUser);
 
+const upload = require('../middleware/upload');
+
 // ==================== Menu Routes ====================
 routers.get('/get/menu', getListMenu);
 routers.get('/get/menu/:id', getMenuById);
-routers.post('/create/menu', createMenu);
-routers.put('/update/menu/:id', updateMenu);
+routers.post('/create/menu', upload.single('Gambar_Menu'), createMenu);
+routers.put('/update/menu/:id', upload.single('Gambar_Menu'), updateMenu);
 routers.delete('/delete/menu/:id', deleteMenu);
 
 // ==================== Karyawan Routes ====================
