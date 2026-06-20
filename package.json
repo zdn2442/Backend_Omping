@@ -4,6 +4,7 @@
   "description": "Backend API untuk Rumah Makan Omping",
   "main": "server.js",
   "scripts": {
+    "prestart": "npx sequelize-cli db:migrate",
     "start": "node server.js",
     "dev": "NODE_ENV=development nodemon server.js",
     "test": "NODE_ENV=test node server.js",
@@ -21,10 +22,10 @@
     "express": "^5.2.1",
     "multer": "^2.2.0",
     "mysql2": "^3.22.2",
-    "sequelize": "^6.37.8"
+    "sequelize": "^6.37.8",
+    "sequelize-cli": "^6.6.5"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14",
-    "sequelize-cli": "^6.6.5"
+    "nodemon": "^3.1.14"
   }
 }
