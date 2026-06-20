@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT
     },
     Kategori_Menu: {
-      type: DataTypes.ENUM('makanan', 'minuman')
+      type: DataTypes.ENUM('makanan', 'minuman', 'tambahan')
     },
     Gambar_Menu: {
       type: DataTypes.TEXT('long')

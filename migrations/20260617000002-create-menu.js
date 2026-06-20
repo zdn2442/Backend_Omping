@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.FLOAT
       },
       Kategori_Menu: {
-        type: Sequelize.ENUM('makanan', 'minuman')
+        type: Sequelize.ENUM('makanan', 'minuman', 'tambahan')
       },
       Gambar_Menu: {
         type: Sequelize.TEXT('long')
