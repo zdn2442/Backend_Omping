@@ -32,9 +32,12 @@ async function createMenu(req, res) {
       Kategori_Menu: req.body.Kategori_Menu,
     };
 
-    // Jika ada file gambar yang diupload
+    // Jika ada file gambar yang diupload via multer
     if (req.file) {
       data.Gambar_Menu = `/uploads/menu/${req.file.filename}`;
+    } else if (req.body.Gambar_Menu) {
+      // Jika dikirim sebagai base64 atau URL langsung di body
+      data.Gambar_Menu = req.body.Gambar_Menu;
     }
 
     const menu = await Menu.create(data);
@@ -57,15 +60,25 @@ async function updateMenu(req, res) {
     if (req.body.Harga_Menu) data.Harga_Menu = req.body.Harga_Menu;
     if (req.body.Kategori_Menu) data.Kategori_Menu = req.body.Kategori_Menu;
 
-    // Jika ada file gambar baru, hapus gambar lama
+    // Jika ada file gambar baru (via multer), hapus gambar lama jika berupa file lokal
     if (req.file) {
-      if (menu.Gambar_Menu) {
+      if (menu.Gambar_Menu && menu.Gambar_Menu.startsWith('/uploads/')) {
         const oldPath = path.join(__dirname, '..', menu.Gambar_Menu);
         if (fs.existsSync(oldPath)) {
           fs.unlinkSync(oldPath);
         }
       }
       data.Gambar_Menu = `/uploads/menu/${req.file.filename}`;
+    } else if (req.body.Gambar_Menu !== undefined) {
+      // Jika ada update gambar via body (base64 atau URL)
+      // Hapus file gambar lama jika sebelumnya berupa file lokal
+      if (menu.Gambar_Menu && menu.Gambar_Menu.startsWith('/uploads/')) {
+        const oldPath = path.join(__dirname, '..', menu.Gambar_Menu);
+        if (fs.existsSync(oldPath)) {
+          fs.unlinkSync(oldPath);
+        }
+      }
+      data.Gambar_Menu = req.body.Gambar_Menu;
     }
 
     await menu.update(data);
@@ -83,8 +96,8 @@ async function deleteMenu(req, res) {
       return res.status(404).json({ error: 'Menu tidak ditemukan' });
     }
 
-    // Hapus file gambar jika ada
-    if (menu.Gambar_Menu) {
+    // Hapus file gambar jika ada dan merupakan file lokal
+    if (menu.Gambar_Menu && menu.Gambar_Menu.startsWith('/uploads/')) {
       const filePath = path.join(__dirname, '..', menu.Gambar_Menu);
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);

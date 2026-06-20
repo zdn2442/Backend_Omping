@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.ENUM('makanan', 'minuman')
       },
       Gambar_Menu: {
-        type: Sequelize.STRING(255)
+        type: Sequelize.TEXT('long')
       },
       createdAt: {
         allowNull: false,

@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('makanan', 'minuman')
     },
     Gambar_Menu: {
-      type: DataTypes.STRING(255)
+      type: DataTypes.TEXT('long')
     }
   }, {
     sequelize,
