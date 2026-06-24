@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       DetailPesan.belongsTo(models.Pesan, {
         foreignKey: 'Id_Pesan',
+        onDelete: 'CASCADE',
       });
       DetailPesan.belongsTo(models.Menu, {
         foreignKey: 'Id_Menu',

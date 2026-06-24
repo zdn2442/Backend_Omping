@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
       });
       Pesan.hasMany(models.DetailPesan, {
         foreignKey: 'Id_Pesan',
+        onDelete: 'CASCADE',
+        hooks: true
       });
       Pesan.hasOne(models.Bayar, {
         foreignKey: 'Id_Pesan',
